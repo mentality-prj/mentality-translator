@@ -1,0 +1,17 @@
+version: "3.9"
+services:
+  api:
+    build: .
+    image: example-microservice:latest
+    ports:
+      - "8000:8000"
+    environment:
+      APP_NAME: example-microservice
+      ENV: dev
+      VERSION: "0.1.0"
+    depends_on:
+      - redis
+  redis:
+    image: redis:7-alpine
+    ports:
+      - "6379:6379"
