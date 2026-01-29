@@ -4,6 +4,10 @@ protobuf
 fastapi
 uvicorn
 
+transformers==4.37.4
+SentencePiece==0.1.99
+torch==2.2.0
+
 fastapi==0.115.2
 uvicorn[standard]==0.32.0
 python-dotenv==1.0.1
