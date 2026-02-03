@@ -18,3 +18,4 @@ class TranslatorService:
         return self.tokenizer.decode(output[0], skip_special_tokens=True)
     
 
+translation_service: TranslatorService = None

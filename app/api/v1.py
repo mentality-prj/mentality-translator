@@ -1,4 +1,4 @@
-from fastapi import APIRouter, Request
+from fastapi import APIRouter, HTTPException, Request
 from ..core.config import settings
 
 router = APIRouter(prefix="/v1")
@@ -16,29 +16,19 @@ def hello(name: str = "world"):
 async def translate_rest(req: Request):
     body = await req.json()
     key = req.headers.get("authorization")
-    if not key or key != f"Bearer {API_KEY}":
-        raise HTTPException(status_code=401, detail="Unauthorized")
+    if not key:
+        raise HTTPException(status_code=401, detail="Missing authorization header")
+    if key != f"Bearer {settings.API_KEY}":
+        raise HTTPException(status_code=401, detail="Invalid authorization token")
+    
+    result = translate(data.text)
+    return {"translation": result}
     
 
 # -------------------
 '''
-from fastapi import FastAPI
-from pydantic import BaseModel
-
-app = FastAPI()
-
-class Input(BaseModel):
-    text: str
-
 @app.post("/translate")
 def translate_endpoint(data: Input):
     result = translate(data.text)
     return {"translation": result}
-
-@app.on_event("startup")
-def load_model():
-    app.state.tokenizer = MarianTokenizer.from_pretrained(model_name)
-    app.state.model = MarianMTModel.from_pretrained(model_name)
-    # optional warm-up
-    app.state.model.generate(**app.state.tokenizer("warmup", return_tensors="pt"))
     '''
